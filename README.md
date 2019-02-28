@@ -8,7 +8,7 @@
 ## QT实现串口通信
 1. 在工程文件（.pro）中添加串口通信相关运行库：`QT       += serialport`
 2. 在头文件中添加
-    ```
+    ```cpp
     #include <QtSerialPort/QSerialPort>
     #include <QtSerialPort/QSerialPortInfo>
     ```
@@ -16,7 +16,7 @@
 ## 串口通讯步骤
 1. 设置串口名称
     + 寻找可用串口
-        ```
+        ```cpp
         void control::scanPort()
         {
             this->ui->cb_port->clear();
@@ -38,48 +38,48 @@
         }
         ```
     + 设置串口名
-        ```
+        ```cpp
         serial = new QSerialPort;
         //设置串口名
         serial->setPortName(this->ui->cb_port->currentText());
         ```
 2. 打开串口
-    ```
+    ```cpp
     serial->open(QIODevice::ReadWrite);
     ```
 3. 设置波特率
-    ```
+    ```cpp
     serial->setBaudRate(QSerialPort::Baud115200);//设置波特率为115200
     ```
 4. 设置数据位
-    ```
+    ```cpp
     serial->setDataBits(QSerialPort::Data8);//设置数据位8
     ```
 5. 设置校验位
-    ```
+    ```cpp
     serial->setParity(QSerialPort::NoParity); //无校验位
     ```
 6. 设置停止位
-    ```
+    ```cpp
     serial->setStopBits(QSerialPort::OneStop);//停止位设置为1
     ```
 7. 设置流控制
-    ```
+    ```cpp
     serial->setFlowControl(QSerialPort::NoFlowControl);//设置为无流控制
     ```
 通过上述操作，串口的基本设置就设置好了，接下来需要实现数据的接收和发送：
 1. 在打开串口按钮中执行的操作中添加槽函数，当下位机中有数据发送过来时就会相应这个槽函数
-    ```
+    ```cpp
     connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
     ```
 2. 从上位机发送数据到下位机，发送内容位ASII码值或者为Hex格式；根据自身需求，我将数据进行了转换和格式化，此处为Hex格式。
-    ```
+    ```cpp
     serial->write(QString2Hex(formatInput(hexStr)));
     ```
 ## 进制转换及格式化
 由于下位机需求，需要两帧将数据发送过去，经过多番考虑，最终决定将十进制转换为16进制，然后以Hex进行发送
 1. 十进制转换为16进制字符串
-    ```
+    ```cpp
     //将十进制int转换为十六进制字符串
     QString control::decInt2HexStr(int dec)
     {
@@ -102,7 +102,7 @@
     }
     ```
 2. 将字符串转换为Hex格式
-    ```
+    ```cpp
     //字符串转Hex(QByteArray)类型
     QByteArray control::QString2Hex(QString hexStr)
     {
@@ -158,7 +158,7 @@
     }
     ```
 3. 输出形式格式化
-    ```
+    ```cpp
     //将输入格式化，补满四位：0XFFFF
     QString control::formatInput(QString hexStr)
     {
