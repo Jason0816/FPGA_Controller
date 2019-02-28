@@ -189,4 +189,4 @@
 ## UI展示
 ![界面展示](https://upload-images.jianshu.io/upload_images/14484228-06891a8bb97b3885.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ## 源码下载：
-[Github](https://github.com/2572880761/FPGA_Controller))
+[Github](https://github.com/2572880761/FPGA_Controller)
